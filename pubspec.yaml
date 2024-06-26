@@ -7,10 +7,12 @@ environment:
   sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
+  animated_text_kit: ^4.2.2
   easy_localization: ^3.0.7
   flutter:
     sdk: flutter
   go_router: ^14.2.0
+  responsive_builder: ^0.7.0
 
 dev_dependencies:
   flutter_test:

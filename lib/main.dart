@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:melloss_portifolio/config/routes/go_routing.dart';
+import 'package:melloss_portifolio/config/theme/theme.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +23,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: goRouting,
+    return ResponsiveApp(
+      builder: (_) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: goRouting,
+        theme: themeData,
+      ),
     );
   }
 }
