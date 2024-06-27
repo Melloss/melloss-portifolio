@@ -1,6 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:melloss_portifolio/bloc/battery/battery_bloc.dart';
 import 'package:melloss_portifolio/config/routes/go_routing.dart';
 
 part 'splash_viewmodel.dart';
@@ -43,6 +45,7 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
+    context.read<BatteryBloc>().add(CheckBatterLevel());
     showCommandWidget().then((value) async {
       await Future.delayed(
         const Duration(milliseconds: 500),

@@ -12,12 +12,20 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/folder_icon.png
+  AssetGenImage get folderIcon =>
+      const AssetGenImage('assets/images/folder_icon.png');
+
+  /// File path: assets/images/melloss_pic.jpg
+  AssetGenImage get mellossPic =>
+      const AssetGenImage('assets/images/melloss_pic.jpg');
+
   /// File path: assets/images/ubuntu_wallpaper_1.jpg
   AssetGenImage get ubuntuWallpaper1 =>
       const AssetGenImage('assets/images/ubuntu_wallpaper_1.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [ubuntuWallpaper1];
+  List<AssetGenImage> get values => [folderIcon, mellossPic, ubuntuWallpaper1];
 }
 
 class $AssetsTranslationsGen {
