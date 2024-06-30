@@ -16,6 +16,21 @@ final themeData = ThemeData(
       borderSide: BorderSide.none,
     ),
   ),
+  sliderTheme: const SliderThemeData(
+      activeTrackColor: ColorName.primaryColor,
+      trackHeight: 3,
+      rangeThumbShape: RoundRangeSliderThumbShape(enabledThumbRadius: 5)),
+  popupMenuTheme: PopupMenuThemeData(
+    shape: ContinuousRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(
+          color: Colors.white24,
+          width: 1,
+        )),
+    surfaceTintColor: ColorName.forgroundColor,
+    color: ColorName.forgroundColor,
+    elevation: 20,
+  ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
       color: ColorName.white,
