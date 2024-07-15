@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="backgroundColor" type="material">#FF757A73</color>
+    <color name="backgroundColor" type="material">#FF222222</color>
+    <color name="darkBlackColor" type="material">#FF131313</color>
     <color name="white" type="material">#FFFFFFFF</color>
     <color name="forgroundColor" type="material">#FF1D1D1D</color>
     <color name="primaryColor" type="material">#FFE95420</color>

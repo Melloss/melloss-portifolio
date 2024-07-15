@@ -2,10 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melloss_portifolio/bloc/brightness/brightness_bloc.dart';
+import 'package:melloss_portifolio/bloc/file_system/file_system_bloc.dart';
+import 'package:melloss_portifolio/bloc/ui/ui_bloc.dart';
 import 'package:melloss_portifolio/config/routes/go_routing.dart';
 import 'package:melloss_portifolio/config/theme/theme.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-
 import 'bloc/battery/battery_bloc.dart';
 
 void main() async {
@@ -34,7 +35,13 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BrightnessBloc(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => FileSystemBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UIBloc(),
+        ),
       ],
       child: ResponsiveApp(
         builder: (_) => MaterialApp.router(

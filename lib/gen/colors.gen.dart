@@ -14,29 +14,56 @@ class ColorName {
   ColorName._();
 
   /// MaterialColor:
-  ///   50: #FFFFEEF92
-  ///   100: #FFFFD6256F
-  ///   200: #FFFFBA3DB9
-  ///   300: #FFFF9E5603
-  ///   400: #FFFF8A683B
-  ///   500: #FFFF757A73
-  ///   600: #FFFF6D80F5F
-  ///   700: #FFFF6211F97F
-  ///   800: #FFFF581B4E53
-  ///   900: #FFFF452C3812
+  ///   50: #FFFFE44F9
+  ///   100: #FFFFBDAF0
+  ///   200: #FFFF911191
+  ///   300: #FFFF641831
+  ///   400: #FFFF431D2A
+  ///   500: #FFFF222222
+  ///   600: #FFFF1EB5BF
+  ///   700: #FFFF19176C7
+  ///   800: #FFFF1422C75
+  ///   900: #FFFF0C375BF
   static const MaterialColor backgroundColor = MaterialColor(
-    0xFFFF757A73,
+    0xFFFF222222,
     <int, Color>{
-      50: Color(0xFFFFEEF92),
-      100: Color(0xFFFFD6256F),
-      200: Color(0xFFFFBA3DB9),
-      300: Color(0xFFFF9E5603),
-      400: Color(0xFFFF8A683B),
-      500: Color(0xFFFF757A73),
-      600: Color(0xFFFF6D80F5F),
-      700: Color(0xFFFF6211F97F),
-      800: Color(0xFFFF581B4E53),
-      900: Color(0xFFFF452C3812),
+      50: Color(0xFFFFE44F9),
+      100: Color(0xFFFFBDAF0),
+      200: Color(0xFFFF911191),
+      300: Color(0xFFFF641831),
+      400: Color(0xFFFF431D2A),
+      500: Color(0xFFFF222222),
+      600: Color(0xFFFF1EB5BF),
+      700: Color(0xFFFF19176C7),
+      800: Color(0xFFFF1422C75),
+      900: Color(0xFFFF0C375BF),
+    },
+  );
+
+  /// MaterialColor:
+  ///   50: #FFFFE332A
+  ///   100: #FFFFB866B
+  ///   200: #FFFF89A09
+  ///   300: #FFFF5ADA7
+  ///   400: #FFFF36105D
+  ///   500: #FFFF131313
+  ///   600: #FFFF114014
+  ///   700: #FFFF0E7AED
+  ///   800: #FFFF0BB251
+  ///   900: #FFFF06116B5
+  static const MaterialColor darkBlackColor = MaterialColor(
+    0xFFFF131313,
+    <int, Color>{
+      50: Color(0xFFFFE332A),
+      100: Color(0xFFFFB866B),
+      200: Color(0xFFFF89A09),
+      300: Color(0xFFFF5ADA7),
+      400: Color(0xFFFF36105D),
+      500: Color(0xFFFF131313),
+      600: Color(0xFFFF114014),
+      700: Color(0xFFFF0E7AED),
+      800: Color(0xFFFF0BB251),
+      900: Color(0xFFFF06116B5),
     },
   );
 

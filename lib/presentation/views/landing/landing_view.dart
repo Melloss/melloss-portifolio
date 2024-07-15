@@ -3,7 +3,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:melloss_portifolio/bloc/file_system/file_system_bloc.dart';
 import 'package:melloss_portifolio/config/routes/go_routing.dart';
 import 'package:melloss_portifolio/gen/colors.gen.dart';
 import 'package:melloss_portifolio/presentation/widgets/loading_animation.dart';
@@ -24,6 +26,7 @@ class _LandingViewState extends State<LandingView> {
   final viewModel = LandingViewmodel();
 
   enterPressHandler() async {
+    context.read<FileSystemBloc>().add(PushTo(path: 'Desktop'));
     setState(() {
       viewModel.isEnterPressed = true;
     });
@@ -40,7 +43,7 @@ class _LandingViewState extends State<LandingView> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          Assets.images.ubuntuWallpaper1.image(
+          Assets.images.ubuntuWallpaper.image(
             width: 100.sh,
             height: 100.sw,
             fit: BoxFit.cover,
@@ -99,6 +102,7 @@ class _LandingViewState extends State<LandingView> {
                   child: TextField(
                     onEditingComplete: enterPressHandler,
                     obscureText: viewModel.isObscure,
+                    autofocus: true,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontSize: 16,
                         ),

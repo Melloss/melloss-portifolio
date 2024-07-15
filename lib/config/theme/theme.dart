@@ -16,6 +16,18 @@ final themeData = ThemeData(
       borderSide: BorderSide.none,
     ),
   ),
+  expansionTileTheme: ExpansionTileThemeData(
+    shape: ContinuousRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    collapsedBackgroundColor: Colors.transparent,
+    collapsedShape: InputBorder.none,
+    collapsedTextColor: Colors.white,
+    textColor: Colors.white,
+    iconColor: Colors.white,
+    collapsedIconColor: Colors.white,
+    backgroundColor: ColorName.white.withOpacity(0.1),
+  ),
   sliderTheme: const SliderThemeData(
       activeTrackColor: ColorName.primaryColor,
       trackHeight: 3,

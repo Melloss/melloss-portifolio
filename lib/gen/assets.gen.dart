@@ -20,12 +20,17 @@ class $AssetsImagesGen {
   AssetGenImage get mellossPic =>
       const AssetGenImage('assets/images/melloss_pic.jpg');
 
-  /// File path: assets/images/ubuntu_wallpaper_1.jpg
-  AssetGenImage get ubuntuWallpaper1 =>
-      const AssetGenImage('assets/images/ubuntu_wallpaper_1.jpg');
+  /// File path: assets/images/terminal_icon.png
+  AssetGenImage get terminalIcon =>
+      const AssetGenImage('assets/images/terminal_icon.png');
+
+  /// File path: assets/images/ubuntu_wallpaper.png
+  AssetGenImage get ubuntuWallpaper =>
+      const AssetGenImage('assets/images/ubuntu_wallpaper.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [folderIcon, mellossPic, ubuntuWallpaper1];
+  List<AssetGenImage> get values =>
+      [folderIcon, mellossPic, terminalIcon, ubuntuWallpaper];
 }
 
 class $AssetsTranslationsGen {
