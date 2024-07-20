@@ -8,7 +8,9 @@ import 'package:melloss_portifolio/presentation/widgets/file_explorer.dart';
 class FolderIcon extends StatefulWidget {
   final String folderName;
   final List<String>? initialpath;
-  const FolderIcon({super.key, required this.folderName, this.initialpath});
+  final Function()? onTab;
+  const FolderIcon(
+      {super.key, required this.folderName, this.initialpath, this.onTab});
 
   @override
   State<FolderIcon> createState() => _FolderIconState();
@@ -55,6 +57,9 @@ class _FolderIconState extends State<FolderIcon> {
             context
                 .read<UIBloc>()
                 .add(const ToggleIsExplorerOpened(isOpended: true));
+          }
+          if (widget.onTab != null) {
+            widget.onTab!();
           }
         },
         child: TextButton(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melloss_portifolio/data/models/folder_model.dart';
 
@@ -13,6 +15,7 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
             FolderModel(name: 'Musics'),
             FolderModel(name: 'Downloads'),
             FolderModel(name: 'Videos'),
+            FolderModel(name: 'Pictures'),
           ],
           currentPath: ['/'],
           fileSystem: {
@@ -24,6 +27,7 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
               'Musics': {},
               'Downloads': {},
               'Videos': {},
+              'Pictures': {}
             }
           },
         )) {
@@ -34,10 +38,10 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
   }
 
   navigateToHandler(NavigateTo event, Emitter emit) {
-    final folders = findFolders(event.currentPath);
+    final folders = findFolders(event.currentPath, state.fileSystem);
     emit(state.copyWith(
       folders: folders,
-      currentPath: event.currentPath,
+      currentPath: [...event.currentPath],
       desktopFileSystem: event.currentPath.last == 'Desktop'
           ? state.copyWith(
               folders: folders,
@@ -49,19 +53,22 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
 
   createDirectoryHandler(CreateDirectory event, Emitter emit) {
     final newFileSystem = createFolderInPath(
-      state.fileSystem,
-      state.currentPath,
+      jsonDecode(jsonEncode(state.fileSystem)),
+      [...state.currentPath],
       event.directoryName.trim(),
       event.isForDesktop,
     );
-
+    final fileSystem = jsonDecode(jsonEncode(newFileSystem));
     emit(state.copyWith(
-      fileSystem: newFileSystem,
-      folders: findFolders(state.currentPath),
-      desktopFileSystem: event.isForDesktop
+      fileSystem: fileSystem,
+      folders: findFolders(state.currentPath, fileSystem),
+      currentPath: [...state.currentPath],
+      desktopFileSystem: event.isForDesktop ||
+              (state.currentPath.first == '/' &&
+                  state.currentPath.last == 'Desktop')
           ? state.copyWith(
               fileSystem: newFileSystem,
-              folders: findFolders(['/', 'Desktop']),
+              folders: findFolders(['/', 'Desktop'], fileSystem),
             )
           : state.desktopFileSystem,
     ));
@@ -73,7 +80,7 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
       currentPath.removeLast();
       emit(state.copyWith(
         currentPath: currentPath,
-        folders: findFolders(currentPath),
+        folders: findFolders(currentPath, state.fileSystem),
       ));
     }
   }
@@ -84,10 +91,10 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
         ...state.currentPath,
         event.path,
       ];
-      final folders = findFolders(currentPath);
+      final folders = findFolders(currentPath, state.fileSystem);
       emit(state.copyWith(
         folders: folders,
-        currentPath: currentPath,
+        currentPath: [...currentPath],
         desktopFileSystem: event.path == 'Desktop'
             ? state.copyWith(
                 folders: folders,
@@ -122,8 +129,7 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
 
     // Update the fileSystem with the modified targetMap (avoid modifying original)
     Map<String, dynamic> updatedFileSystem = Map.from(fileSystem);
-    updatedFileSystem['/'] =
-        updateSubMap(updatedFileSystem['/'], path.sublist(1), targetMap);
+    updatedFileSystem = updateSubMap(updatedFileSystem, path, targetMap);
     return updatedFileSystem;
   }
 
@@ -140,8 +146,9 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
     return currentMap;
   }
 
-  List<FolderModel> findFolders(List<String> newCurrentPath) {
-    Map currentDirectory = state.fileSystem;
+  List<FolderModel> findFolders(
+      List<String> newCurrentPath, Map newFileSystem) {
+    Map currentDirectory = newFileSystem;
     List<FolderModel> folders = [];
     for (var folder in newCurrentPath) {
       currentDirectory = currentDirectory[folder] as Map;
