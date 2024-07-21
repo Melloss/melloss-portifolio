@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melloss_portifolio/core/utils/text_dialog.dart';
 import 'package:melloss_portifolio/presentation/widgets/file_explorer.dart';
 import 'package:melloss_portifolio/presentation/widgets/folder_icon.dart';
+import 'package:melloss_portifolio/presentation/widgets/terminal.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../bloc/brightness/brightness_bloc.dart';
@@ -215,6 +216,16 @@ class _DesktopViewState extends State<DesktopView> {
           ),
         ),
         PopupMenuItem(
+          onTap: () {
+            showDialog(
+              barrierDismissible: false,
+              barrierColor: Colors.transparent,
+              context: context,
+              builder: (_) => const Terminal(
+                currentPath: ['/', 'Desktop'],
+              ),
+            );
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
