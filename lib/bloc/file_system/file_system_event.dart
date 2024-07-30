@@ -21,3 +21,21 @@ final class CreateDirectory extends FileSystemEvent {
 
   CreateDirectory({required this.directoryName, this.isForDesktop = false});
 }
+
+final class DeleteDirectory extends FileSystemEvent {
+  final List<String> path;
+  final String nameOfDirectory;
+
+  DeleteDirectory({required this.path, required this.nameOfDirectory});
+}
+
+final class RenameDirectory extends FileSystemEvent {
+  final List<String> path;
+  final String nameOfDirectory;
+  final String newDirectoryName;
+
+  RenameDirectory(
+      {required this.path,
+      required this.nameOfDirectory,
+      required this.newDirectoryName});
+}

@@ -1,27 +1,43 @@
 import 'package:flutter/material.dart';
 
 class TerminalLine extends StatefulWidget {
-  final List<String> currentPath;
-  final bool isActive;
-  final Function(String) onEnter;
-  const TerminalLine({
-    super.key,
-    required this.currentPath,
-    required this.onEnter,
-    this.isActive = false,
-  });
+  List<String> currentPath;
+  bool isActive;
+  Function(String) onEnter;
+  Function()? onInitial;
+  bool isPopend;
+
+  TextEditingController controller;
+  TerminalLine(
+      {super.key,
+      required this.currentPath,
+      required this.onEnter,
+      required this.controller,
+      this.isActive = false,
+      this.isPopend = false,
+      this.onInitial});
 
   @override
   State<TerminalLine> createState() => _TerminalLineState();
 }
 
 class _TerminalLineState extends State<TerminalLine> {
-  final commandController = TextEditingController();
+  List<String> currentPath = [];
+  @override
+  void initState() {
+    if (widget.onInitial != null) {
+      widget.onInitial!.call();
+    }
+    currentPath = List.from(widget.currentPath);
+    if (widget.isPopend) {
+      currentPath.removeLast();
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
-    commandController.text = '';
-    commandController.dispose();
+    widget.controller.dispose();
     super.dispose();
   }
 
@@ -35,7 +51,7 @@ class _TerminalLineState extends State<TerminalLine> {
           Padding(
             padding: const EdgeInsets.only(left: 20, top: 20),
             child: Text(
-              '[ ~${widget.currentPath.length == 1 ? '' : '/'}${widget.currentPath.sublist(1).join(' / ')} ]',
+              '[ ~${currentPath.length == 1 ? '' : ' / '}${currentPath.sublist(1).join(' / ')} ]',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Colors.cyan,
                     fontSize: 20,
@@ -64,16 +80,13 @@ class _TerminalLineState extends State<TerminalLine> {
                   child: TextField(
                 onSubmitted: (command) {
                   widget.onEnter(command);
-                  if (command.trim() == 'clear') {
-                    // commandController.dispose();
-                  }
                 },
                 cursorWidth: 10,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.w300,
                       fontSize: 20,
                     ),
-                controller: commandController,
+                controller: widget.controller,
                 autofocus: widget.isActive,
                 decoration: InputDecoration(
                   hoverColor: Colors.transparent,

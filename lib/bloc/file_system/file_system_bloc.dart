@@ -31,13 +31,90 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
             }
           },
         )) {
-    on<PushTo>(pushToHandler);
-    on<NavigateTo>(navigateToHandler);
-    on<Pop>(popHandler);
-    on<CreateDirectory>(createDirectoryHandler);
+    on<PushTo>(onPushTo);
+    on<NavigateTo>(onNavigateTo);
+    on<Pop>(onPop);
+    on<CreateDirectory>(onCreateDirectory);
+    on<DeleteDirectory>(onDeleteDirectory);
+    on<RenameDirectory>(onRenameDirectory);
   }
 
-  navigateToHandler(NavigateTo event, Emitter emit) {
+  onRenameDirectory(RenameDirectory event, Emitter emit) {
+    final foldersNames =
+        findFolders(event.path, state.fileSystem).map((f) => f.name);
+    if (foldersNames.contains(event.nameOfDirectory.trim())) {
+      Map<String, dynamic> newFileSystem = _renameDirectoryInPath(
+        jsonDecode(jsonEncode(state.fileSystem)),
+        event.path,
+        event.nameOfDirectory,
+        event.newDirectoryName,
+      );
+      final fileSystem = jsonDecode(jsonEncode(newFileSystem));
+      emit(state.copyWith(
+        fileSystem: fileSystem,
+        folders: findFolders(state.currentPath, fileSystem),
+        currentPath: [...state.currentPath],
+        desktopFileSystem: (state.currentPath.first == '/' &&
+                state.currentPath.last == 'Desktop')
+            ? state.copyWith(
+                fileSystem: newFileSystem,
+                folders: findFolders(['/', 'Desktop'], fileSystem),
+              )
+            : state.desktopFileSystem,
+      ));
+    } else {
+      emit(
+        FileSystemError(
+          type: FileSystemErrorType.renameDirectory,
+          errorMessage:
+              'cannot rename \'${event.newDirectoryName}\' : No such file or directory',
+          fileSystem: state.fileSystem,
+          currentPath: state.currentPath,
+          desktopFileSystem: state.desktopFileSystem,
+          folders: state.folders,
+        ),
+      );
+    }
+  }
+
+  onDeleteDirectory(DeleteDirectory event, Emitter emit) {
+    final foldersNames =
+        findFolders(event.path, state.fileSystem).map((f) => f.name);
+    if (foldersNames.contains(event.nameOfDirectory.trim())) {
+      Map<String, dynamic> newFileSystem = _deleteDirectoryInPath(
+        jsonDecode(jsonEncode(state.fileSystem)),
+        event.path,
+        event.nameOfDirectory,
+      );
+      final fileSystem = jsonDecode(jsonEncode(newFileSystem));
+      emit(state.copyWith(
+        fileSystem: fileSystem,
+        folders: findFolders(state.currentPath, fileSystem),
+        currentPath: [...state.currentPath],
+        desktopFileSystem: (state.currentPath.first == '/' &&
+                state.currentPath.last == 'Desktop')
+            ? state.copyWith(
+                fileSystem: newFileSystem,
+                folders: findFolders(['/', 'Desktop'], fileSystem),
+              )
+            : state.desktopFileSystem,
+      ));
+    } else {
+      emit(
+        FileSystemError(
+          type: FileSystemErrorType.deleteDirectory,
+          errorMessage:
+              'failed to remove \'${event.nameOfDirectory.trim()}\' : No such file or directory',
+          fileSystem: state.fileSystem,
+          currentPath: state.currentPath,
+          desktopFileSystem: state.desktopFileSystem,
+          folders: state.folders,
+        ),
+      );
+    }
+  }
+
+  onNavigateTo(NavigateTo event, Emitter emit) {
     final folders = findFolders(event.currentPath, state.fileSystem);
     emit(state.copyWith(
       folders: folders,
@@ -51,8 +128,8 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
     ));
   }
 
-  createDirectoryHandler(CreateDirectory event, Emitter emit) {
-    final newFileSystem = createFolderInPath(
+  onCreateDirectory(CreateDirectory event, Emitter emit) {
+    final newFileSystem = _createFolderInPath(
       jsonDecode(jsonEncode(state.fileSystem)),
       [...state.currentPath],
       event.directoryName.trim(),
@@ -74,7 +151,7 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
     ));
   }
 
-  popHandler(Pop event, Emitter emit) {
+  onPop(Pop event, Emitter emit) {
     List<String> currentPath = state.currentPath;
     if (currentPath.length >= 2) {
       currentPath.removeLast();
@@ -85,27 +162,91 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
     }
   }
 
-  pushToHandler(PushTo event, Emitter emit) {
-    if (state.currentPath.contains(event.path) == false) {
-      List<String> currentPath = [
-        ...state.currentPath,
-        event.path,
-      ];
-      final folders = findFolders(currentPath, state.fileSystem);
-      emit(state.copyWith(
-        folders: folders,
-        currentPath: [...currentPath],
-        desktopFileSystem: event.path == 'Desktop'
-            ? state.copyWith(
-                folders: folders,
-                currentPath: currentPath,
-              )
-            : null,
-      ));
+  onPushTo(PushTo event, Emitter emit) {
+    if (event.path == '..') {
+      add(Pop());
+    } else {
+      if (state.folders.map((f) => f.name).contains(event.path.trim())) {
+        List<String> currentPath = [
+          ...state.currentPath,
+          event.path,
+        ];
+        final folders = findFolders(currentPath, state.fileSystem);
+        emit(state.copyWith(
+          folders: folders,
+          currentPath: [...currentPath],
+          desktopFileSystem: event.path == 'Desktop'
+              ? state.copyWith(
+                  folders: folders,
+                  currentPath: currentPath,
+                )
+              : null,
+        ));
+      } else {
+        emit(FileSystemError(
+          type: FileSystemErrorType.navigationToDirectory,
+          errorMessage: 'no such file or directory: ${event.path}',
+          fileSystem: state.fileSystem,
+          currentPath: state.currentPath,
+          folders: state.folders,
+          desktopFileSystem: state.desktopFileSystem,
+        ));
+      }
     }
   }
 
-  Map<String, dynamic> createFolderInPath(Map<String, dynamic> fileSystem,
+  Map<String, dynamic> _renameDirectoryInPath(Map<String, dynamic> fileSystem,
+      List<String> path, String nameOfDirectory, String newName) {
+    // Validate path (optional)
+    if (path.isEmpty) {
+      throw Exception('Path cannot be empty');
+    }
+
+    // Traverse the path using fold and create a copy of the target map
+    final targetMap = path.fold<Map<String, dynamic>>(
+        fileSystem.cast<String, dynamic>(), (currentMap, key) {
+      if (!currentMap.containsKey(key)) {
+        return {}; // Return empty map if key doesn't exist
+      }
+      return Map.from(currentMap[key] as Map<String, dynamic>);
+    });
+
+    final tempMap = targetMap[nameOfDirectory];
+    targetMap.remove(nameOfDirectory);
+    targetMap[newName] = tempMap;
+
+    // Update the fileSystem with the modified targetMap (avoid modifying original)
+    Map<String, dynamic> updatedFileSystem = Map.from(fileSystem);
+    updatedFileSystem = updateSubMap(updatedFileSystem, path, targetMap);
+    return updatedFileSystem;
+  }
+
+  Map<String, dynamic> _deleteDirectoryInPath(Map<String, dynamic> fileSystem,
+      List<String> path, String nameOfDirectory) {
+    // Validate path (optional)
+    if (path.isEmpty) {
+      throw Exception('Path cannot be empty');
+    }
+
+    // Traverse the path using fold and create a copy of the target map
+    final targetMap = path.fold<Map<String, dynamic>>(
+        fileSystem.cast<String, dynamic>(), (currentMap, key) {
+      if (!currentMap.containsKey(key)) {
+        return {}; // Return empty map if key doesn't exist
+      }
+      return Map.from(currentMap[key] as Map<String, dynamic>);
+    });
+
+    // remove the map
+    targetMap.remove(nameOfDirectory);
+
+    // Update the fileSystem with the modified targetMap (avoid modifying original)
+    Map<String, dynamic> updatedFileSystem = Map.from(fileSystem);
+    updatedFileSystem = updateSubMap(updatedFileSystem, path, targetMap);
+    return updatedFileSystem;
+  }
+
+  Map<String, dynamic> _createFolderInPath(Map<String, dynamic> fileSystem,
       List<String> path, String newMapKey, bool isForDesktop) {
     if (isForDesktop) {
       path = ['/', 'Desktop'];

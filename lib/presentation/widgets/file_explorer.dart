@@ -6,6 +6,7 @@ import 'package:melloss_portifolio/data/models/folder_model.dart';
 import 'package:melloss_portifolio/gen/colors.gen.dart';
 import 'package:melloss_portifolio/presentation/widgets/button_widget.dart';
 import 'package:melloss_portifolio/presentation/widgets/folder_icon.dart';
+import 'package:melloss_portifolio/presentation/widgets/terminal/terminal.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../bloc/file_system/file_system_bloc.dart';
@@ -524,6 +525,21 @@ class _FileExplorerState extends State<FileExplorer> {
           ),
         ),
         PopupMenuItem(
+          onTap: () {
+            context.pop();
+            showDialog(
+              barrierDismissible: false,
+              barrierColor: Colors.transparent,
+              context: context,
+              builder: (_) => BlocBuilder<FileSystemBloc, FileSystemState>(
+                builder: (context, state) {
+                  return Terminal(
+                    currentPath: state.currentPath,
+                  );
+                },
+              ),
+            );
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(

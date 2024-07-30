@@ -26,3 +26,21 @@ class FileSystemState {
         desktopFileSystem: desktopFileSystem ?? this.desktopFileSystem);
   }
 }
+
+enum FileSystemErrorType {
+  deleteDirectory,
+  navigationToDirectory,
+  renameDirectory
+}
+
+class FileSystemError extends FileSystemState {
+  final String errorMessage;
+  final FileSystemErrorType type;
+  FileSystemError(
+      {required this.errorMessage,
+      required this.type,
+      required super.fileSystem,
+      required super.currentPath,
+      required super.desktopFileSystem,
+      required super.folders});
+}
