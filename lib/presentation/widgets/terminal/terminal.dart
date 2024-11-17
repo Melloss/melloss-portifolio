@@ -28,6 +28,7 @@ class _TerminalState extends State<Terminal> {
   double width = 70.sh;
   double height = 70.sw;
   bool isCleared = true;
+  bool isMinimized = false;
   List<TerminalModel> terminals = [];
   List<String> commandResults = [];
   List<int> currentCommandIds = [];
@@ -90,6 +91,21 @@ class _TerminalState extends State<Terminal> {
             ),
           );
         }
+      } else if (command == 'pwd') {
+        currentCommandIds.add(commandId);
+        terminalHistory[commandId] = [
+          '/${state.currentPath.sublist(1).join('/')}'
+        ];
+        setState(() {
+          currentCommandIds = currentCommandIds;
+          commandResults = commandResults;
+        });
+        terminals.add(
+          TerminalModel(
+            path: state.currentPath,
+            controller: TextEditingController(),
+          ),
+        );
       } else if (command.startsWith('mv')) {
         List args = command.split(' ');
         if (args.first == 'mv' && args.length == 3) {
@@ -110,6 +126,7 @@ class _TerminalState extends State<Terminal> {
         List<String> args = command.split(' ');
         if (args.first == 'open' && args.length == 2) {
           if (args.last == '.') {
+            context.read<UIBloc>().add(const IsExplorerOpened(isOpended: true));
             context.pop();
             showDialog(
                 context: context,
@@ -198,13 +215,22 @@ class _TerminalState extends State<Terminal> {
             currentPath: widget.currentPath,
           ),
         );
+    context.read<UIBloc>().add(const IsTerminalOpended(isOpended: true));
 
     super.initState();
   }
 
   @override
+  void deactivate() {
+    context.read<UIBloc>().add(IsTerminalOpended(isOpended: isMinimized));
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
+      alignment: Alignment.center,
       children: [
         width == 100.sh
             ? _buildMainBoard()
@@ -250,7 +276,7 @@ class _TerminalState extends State<Terminal> {
       width: width,
       height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      color: ColorName.forgroundColor,
+      color: ColorName.darkBlackColor.withOpacity(0.5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -268,6 +294,7 @@ class _TerminalState extends State<Terminal> {
           Row(
             children: [
               ButtonWidget(
+                backgroundColor: Colors.transparent,
                 borderRadius: BorderRadius.circular(100),
                 minimumSize: const Size(40, 40),
                 child: const Icon(
@@ -276,9 +303,11 @@ class _TerminalState extends State<Terminal> {
                 ),
                 onPressed: () {
                   final state = context.read<FileSystemBloc>().state;
+
                   context
                       .read<UIBloc>()
                       .add(SetMinimazedPath(path: state.currentPath));
+                  isMinimized = true;
                   context.pop();
                 },
               ),
@@ -286,6 +315,7 @@ class _TerminalState extends State<Terminal> {
               ButtonWidget(
                 borderRadius: BorderRadius.circular(100),
                 minimumSize: const Size(40, 40),
+                backgroundColor: Colors.transparent,
                 child: const Icon(
                   Icons.check_box_outline_blank,
                   size: 14,
@@ -306,6 +336,7 @@ class _TerminalState extends State<Terminal> {
               ),
               const SizedBox(width: 7),
               ButtonWidget(
+                backgroundColor: Colors.transparent,
                 borderRadius: BorderRadius.circular(100),
                 minimumSize: const Size(40, 40),
                 child: const Icon(
@@ -314,7 +345,7 @@ class _TerminalState extends State<Terminal> {
                 ),
                 onPressed: () {
                   context.read<UIBloc>().add(
-                        const ToggleIsExplorerOpened(isOpended: false),
+                        const IsExplorerOpened(isOpended: false),
                       );
                   context.read<UIBloc>().add(
                         const SetMinimazedPath(path: ['/']),

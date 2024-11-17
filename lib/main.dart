@@ -1,6 +1,9 @@
+// import 'dart:html';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:melloss_portifolio/bloc/browser/browser_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'package:melloss_portifolio/bloc/brightness/brightness_bloc.dart';
@@ -46,6 +49,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UIBloc(),
+        ),
+        BlocProvider(
+          create: (context) => BrowserBloc(),
         ),
       ],
       child: ResponsiveApp(

@@ -54,9 +54,7 @@ class _FolderIconState extends State<FolderIcon> {
                 ],
               ),
             );
-            context
-                .read<UIBloc>()
-                .add(const ToggleIsExplorerOpened(isOpended: true));
+            context.read<UIBloc>().add(const IsExplorerOpened(isOpended: true));
           }
           if (widget.onTab != null) {
             widget.onTab!();

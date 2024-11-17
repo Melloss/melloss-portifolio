@@ -5,12 +5,34 @@ part 'ui_event.dart';
 part 'ui_state.dart';
 
 class UIBloc extends Bloc<UIEvent, UIState> {
-  UIBloc() : super(const UIState(isExplorerOpen: false, minimazedPath: ['/'])) {
-    on<ToggleIsExplorerOpened>(toggleIsExplorerOpenedHandler);
-    on<SetMinimazedPath>(setMinimazedPathHandler);
+  UIBloc()
+      : super(const UIState(
+            isExplorerOpen: false,
+            isBrowserOpen: false,
+            minimazedPath: ['/'],
+            isTerminalOpen: false)) {
+    on<IsExplorerOpened>(onIsExplorerOpended);
+    on<IsTerminalOpended>(onTermnialOpen);
+    on<SetMinimazedPath>(onSetMinimazedPath);
+    on<IsBrowserOpened>(_onIsBroswerOpened);
+  }
+  _onIsBroswerOpened(IsBrowserOpened event, Emitter emit) async {
+    emit(
+      state.copyWith(
+        isBrowserOpen: event.isOpened,
+      ),
+    );
   }
 
-  setMinimazedPathHandler(SetMinimazedPath event, Emitter emit) {
+  onTermnialOpen(IsTerminalOpended event, Emitter emit) {
+    emit(
+      state.copyWith(
+        isTerminalOpen: event.isOpended,
+      ),
+    );
+  }
+
+  onSetMinimazedPath(SetMinimazedPath event, Emitter emit) {
     emit(
       state.copyWith(
         minimazedPath: event.path,
@@ -18,7 +40,7 @@ class UIBloc extends Bloc<UIEvent, UIState> {
     );
   }
 
-  toggleIsExplorerOpenedHandler(ToggleIsExplorerOpened event, Emitter emit) {
+  onIsExplorerOpended(IsExplorerOpened event, Emitter emit) {
     emit(
       state.copyWith(
         isExplorerOpen: event.isOpended,

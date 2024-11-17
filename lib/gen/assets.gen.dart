@@ -12,25 +12,64 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/dart_logo.png
+  AssetGenImage get dartLogo =>
+      const AssetGenImage('assets/images/dart_logo.png');
+
+  /// File path: assets/images/figma_logo.png
+  AssetGenImage get figmaLogo =>
+      const AssetGenImage('assets/images/figma_logo.png');
+
+  /// File path: assets/images/firefox_logo.png
+  AssetGenImage get firefoxLogo =>
+      const AssetGenImage('assets/images/firefox_logo.png');
+
   /// File path: assets/images/folder_icon.png
   AssetGenImage get folderIcon =>
       const AssetGenImage('assets/images/folder_icon.png');
+
+  /// File path: assets/images/github_logo.png
+  AssetGenImage get githubLogo =>
+      const AssetGenImage('assets/images/github_logo.png');
+
+  /// File path: assets/images/linkedIn_logo.png
+  AssetGenImage get linkedInLogo =>
+      const AssetGenImage('assets/images/linkedIn_logo.png');
 
   /// File path: assets/images/melloss_pic.jpg
   AssetGenImage get mellossPic =>
       const AssetGenImage('assets/images/melloss_pic.jpg');
 
-  /// File path: assets/images/terminal_icon.png
-  AssetGenImage get terminalIcon =>
-      const AssetGenImage('assets/images/terminal_icon.png');
+  /// File path: assets/images/terminal.png
+  AssetGenImage get terminal =>
+      const AssetGenImage('assets/images/terminal.png');
 
   /// File path: assets/images/ubuntu_wallpaper.png
   AssetGenImage get ubuntuWallpaper =>
       const AssetGenImage('assets/images/ubuntu_wallpaper.png');
 
+  /// File path: assets/images/wikipedia_logo.png
+  AssetGenImage get wikipediaLogo =>
+      const AssetGenImage('assets/images/wikipedia_logo.png');
+
+  /// File path: assets/images/youtube_logo.png
+  AssetGenImage get youtubeLogo =>
+      const AssetGenImage('assets/images/youtube_logo.png');
+
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [folderIcon, mellossPic, terminalIcon, ubuntuWallpaper];
+  List<AssetGenImage> get values => [
+        dartLogo,
+        figmaLogo,
+        firefoxLogo,
+        folderIcon,
+        githubLogo,
+        linkedInLogo,
+        mellossPic,
+        terminal,
+        ubuntuWallpaper,
+        wikipediaLogo,
+        youtubeLogo
+      ];
 }
 
 class $AssetsTranslationsGen {

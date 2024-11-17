@@ -177,7 +177,7 @@ class _FileExplorerState extends State<FileExplorer> {
                 ),
                 onPressed: () {
                   context.read<UIBloc>().add(
-                        const ToggleIsExplorerOpened(isOpended: false),
+                        const IsExplorerOpened(isOpended: false),
                       );
                   context.read<UIBloc>().add(
                         const SetMinimazedPath(path: ['/']),

@@ -31,9 +31,12 @@ class _LandingViewState extends State<LandingView> {
       viewModel.isEnterPressed = true;
     });
     await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      viewModel.isEnterPressed = false;
-    });
+    if (mounted) {
+      setState(() {
+        viewModel.isEnterPressed = false;
+      });
+    }
+
     context.goNamed(RouteName.desktop);
   }
 

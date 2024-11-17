@@ -78,39 +78,53 @@ class FileSystemBloc extends Bloc<FileSystemEvent, FileSystemState> {
   }
 
   onDeleteDirectory(DeleteDirectory event, Emitter emit) {
-    final foldersNames =
-        findFolders(event.path, state.fileSystem).map((f) => f.name);
-    if (foldersNames.contains(event.nameOfDirectory.trim())) {
-      Map<String, dynamic> newFileSystem = _deleteDirectoryInPath(
-        jsonDecode(jsonEncode(state.fileSystem)),
-        event.path,
-        event.nameOfDirectory,
-      );
-      final fileSystem = jsonDecode(jsonEncode(newFileSystem));
-      emit(state.copyWith(
-        fileSystem: fileSystem,
-        folders: findFolders(state.currentPath, fileSystem),
-        currentPath: [...state.currentPath],
-        desktopFileSystem: (state.currentPath.first == '/' &&
-                state.currentPath.last == 'Desktop')
-            ? state.copyWith(
-                fileSystem: newFileSystem,
-                folders: findFolders(['/', 'Desktop'], fileSystem),
-              )
-            : state.desktopFileSystem,
-      ));
-    } else {
+    if (event.nameOfDirectory.trim() == 'Desktop') {
       emit(
         FileSystemError(
           type: FileSystemErrorType.deleteDirectory,
           errorMessage:
-              'failed to remove \'${event.nameOfDirectory.trim()}\' : No such file or directory',
+              'You can\'t delete \'${event.nameOfDirectory.trim()}\' directory',
           fileSystem: state.fileSystem,
           currentPath: state.currentPath,
           desktopFileSystem: state.desktopFileSystem,
           folders: state.folders,
         ),
       );
+    } else {
+      final foldersNames =
+          findFolders(event.path, state.fileSystem).map((f) => f.name);
+      if (foldersNames.contains(event.nameOfDirectory.trim())) {
+        Map<String, dynamic> newFileSystem = _deleteDirectoryInPath(
+          jsonDecode(jsonEncode(state.fileSystem)),
+          event.path,
+          event.nameOfDirectory,
+        );
+        final fileSystem = jsonDecode(jsonEncode(newFileSystem));
+        emit(state.copyWith(
+          fileSystem: fileSystem,
+          folders: findFolders(state.currentPath, fileSystem),
+          currentPath: [...state.currentPath],
+          desktopFileSystem: (state.currentPath.first == '/' &&
+                  state.currentPath.last == 'Desktop')
+              ? state.copyWith(
+                  fileSystem: newFileSystem,
+                  folders: findFolders(['/', 'Desktop'], fileSystem),
+                )
+              : state.desktopFileSystem,
+        ));
+      } else {
+        emit(
+          FileSystemError(
+            type: FileSystemErrorType.deleteDirectory,
+            errorMessage:
+                'failed to remove \'${event.nameOfDirectory.trim()}\' : No such file or directory',
+            fileSystem: state.fileSystem,
+            currentPath: state.currentPath,
+            desktopFileSystem: state.desktopFileSystem,
+            folders: state.folders,
+          ),
+        );
+      }
     }
   }
 
