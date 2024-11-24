@@ -30,3 +30,9 @@ final class IsBrowserOpened extends UIEvent {
 
   const IsBrowserOpened({required this.isOpened});
 }
+
+final class IsCalculatorOpened extends UIEvent {
+  final bool isOpened;
+
+  const IsCalculatorOpened({required this.isOpened});
+}

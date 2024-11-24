@@ -3,6 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:melloss_portifolio/bloc/bloc/calculator_bloc.dart';
 import 'package:melloss_portifolio/bloc/browser/browser_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -52,6 +53,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BrowserBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CalculatorBloc(),
         ),
       ],
       child: ResponsiveApp(

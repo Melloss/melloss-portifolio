@@ -6,16 +6,29 @@ part 'ui_state.dart';
 
 class UIBloc extends Bloc<UIEvent, UIState> {
   UIBloc()
-      : super(const UIState(
+      : super(
+          const UIState(
             isExplorerOpen: false,
             isBrowserOpen: false,
             minimazedPath: ['/'],
-            isTerminalOpen: false)) {
+            isTerminalOpen: false,
+            isCalculatorOpen: false,
+          ),
+        ) {
     on<IsExplorerOpened>(onIsExplorerOpended);
     on<IsTerminalOpended>(onTermnialOpen);
     on<SetMinimazedPath>(onSetMinimazedPath);
     on<IsBrowserOpened>(_onIsBroswerOpened);
+    on<IsCalculatorOpened>(_onIsCalculatorOpened);
   }
+  _onIsCalculatorOpened(IsCalculatorOpened event, Emitter emit) async {
+    emit(
+      state.copyWith(
+        isCalculatorOpen: event.isOpened,
+      ),
+    );
+  }
+
   _onIsBroswerOpened(IsBrowserOpened event, Emitter emit) async {
     emit(
       state.copyWith(

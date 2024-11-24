@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -40,8 +42,16 @@ class _FirefoxBrowserState extends State<FirefoxBrowser> {
   }
 
   void onDragUpdate(DragUpdateDetails details) {
+    if (top <= 30) {
+      setState(() {
+        top = 30 + 1;
+      });
+    } else {
+      setState(() {
+        top += details.delta.dy;
+      });
+    }
     setState(() {
-      top += details.delta.dy;
       left += details.delta.dx;
       width = 70.sh;
       height = 70.sw;

@@ -7,6 +7,8 @@ class ButtonWidget extends StatelessWidget {
   final Function() onPressed;
   final Size? minimumSize;
   final Color? backgroundColor;
+  final Color? overlayColor;
+
   const ButtonWidget({
     super.key,
     required this.child,
@@ -14,6 +16,7 @@ class ButtonWidget extends StatelessWidget {
     this.borderRadius,
     this.minimumSize,
     this.backgroundColor,
+    this.overlayColor,
   });
 
   @override
@@ -26,6 +29,7 @@ class ButtonWidget extends StatelessWidget {
           elevation: 0,
           backgroundColor: backgroundColor ?? ColorName.backgroundColor,
           foregroundColor: Colors.white60,
+          overlayColor: overlayColor,
           shape: ContinuousRectangleBorder(
             borderRadius: borderRadius ?? BorderRadius.circular(10),
           )),

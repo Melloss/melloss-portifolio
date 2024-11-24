@@ -4,18 +4,20 @@ class UIState {
   final bool isExplorerOpen;
   final bool isTerminalOpen;
   final bool isBrowserOpen;
+  final bool isCalculatorOpen;
   final List<String> minimazedPath;
-  const UIState({
-    required this.isExplorerOpen,
-    required this.minimazedPath,
-    required this.isTerminalOpen,
-    required this.isBrowserOpen,
-  });
+  const UIState(
+      {required this.isExplorerOpen,
+      required this.minimazedPath,
+      required this.isTerminalOpen,
+      required this.isBrowserOpen,
+      required this.isCalculatorOpen});
 
   UIState copyWith({
     bool? isExplorerOpen,
     bool? isTerminalOpen,
     bool? isBrowserOpen,
+    bool? isCalculatorOpen,
     List<String>? minimazedPath,
   }) {
     return UIState(
@@ -23,6 +25,7 @@ class UIState {
       isTerminalOpen: isTerminalOpen ?? this.isTerminalOpen,
       minimazedPath: minimazedPath ?? this.minimazedPath,
       isBrowserOpen: isBrowserOpen ?? this.isBrowserOpen,
+      isCalculatorOpen: isCalculatorOpen ?? this.isCalculatorOpen,
     );
   }
 }

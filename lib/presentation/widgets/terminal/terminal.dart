@@ -37,8 +37,16 @@ class _TerminalState extends State<Terminal> {
   bool isPoped = false;
 
   void onDragUpdate(DragUpdateDetails details) {
+    if (top <= 30) {
+      setState(() {
+        top = 30 + 1;
+      });
+    } else {
+      setState(() {
+        top += details.delta.dy;
+      });
+    }
     setState(() {
-      top += details.delta.dy;
       left += details.delta.dx;
       width = 70.sh;
       height = 70.sw;

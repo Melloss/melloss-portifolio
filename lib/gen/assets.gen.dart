@@ -12,6 +12,10 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/calculator_logo.png
+  AssetGenImage get calculatorLogo =>
+      const AssetGenImage('assets/images/calculator_logo.png');
+
   /// File path: assets/images/dart_logo.png
   AssetGenImage get dartLogo =>
       const AssetGenImage('assets/images/dart_logo.png');
@@ -58,6 +62,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        calculatorLogo,
         dartLogo,
         figmaLogo,
         firefoxLogo,

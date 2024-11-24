@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:melloss_portifolio/gen/assets.gen.dart';
 import 'package:melloss_portifolio/presentation/widgets/browser/firefox_browser.dart';
+import 'package:melloss_portifolio/presentation/widgets/calculator/calculator.dart';
 import 'package:melloss_portifolio/presentation/widgets/file_explorer.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -105,6 +106,48 @@ class BottomNavigation extends StatelessWidget {
                   ),
                   Visibility(
                     visible: state.isTerminalOpen,
+                    child: Positioned(
+                      bottom: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 7,
+                          height: 7,
+                          decoration: BoxDecoration(
+                              color: ColorName.primaryColor,
+                              borderRadius: BorderRadius.circular(50)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  IconButton(
+                    style: _buttonStyle(isActive: state.isCalculatorOpen),
+                    onPressed: () {
+                      context.read<FileSystemBloc>().state;
+                      context
+                          .read<FileSystemBloc>()
+                          .add(NavigateTo(currentPath: state.minimazedPath));
+                      context
+                          .read<UIBloc>()
+                          .add(const IsCalculatorOpened(isOpened: true));
+
+                      showDialog(
+                        barrierDismissible: false,
+                        barrierColor: Colors.transparent,
+                        context: context,
+                        builder: (_) => const Calculator(),
+                      );
+                    },
+                    icon: Assets.images.calculatorLogo
+                        .image(width: 55, height: 55),
+                  ),
+                  Visibility(
+                    visible: state.isCalculatorOpen,
                     child: Positioned(
                       bottom: 0,
                       child: Align(
