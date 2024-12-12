@@ -12,9 +12,15 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/arganon.png
+  AssetGenImage get arganon => const AssetGenImage('assets/images/arganon.png');
+
   /// File path: assets/images/calculator_logo.png
   AssetGenImage get calculatorLogo =>
       const AssetGenImage('assets/images/calculator_logo.png');
+
+  /// File path: assets/images/cliq.png
+  AssetGenImage get cliq => const AssetGenImage('assets/images/cliq.png');
 
   /// File path: assets/images/dart_logo.png
   AssetGenImage get dartLogo =>
@@ -40,6 +46,14 @@ class $AssetsImagesGen {
   AssetGenImage get linkedInLogo =>
       const AssetGenImage('assets/images/linkedIn_logo.png');
 
+  /// File path: assets/images/mela_finance.png
+  AssetGenImage get melaFinance =>
+      const AssetGenImage('assets/images/mela_finance.png');
+
+  /// File path: assets/images/melloss_logo.png
+  AssetGenImage get mellossLogo =>
+      const AssetGenImage('assets/images/melloss_logo.png');
+
   /// File path: assets/images/melloss_pic.jpg
   AssetGenImage get mellossPic =>
       const AssetGenImage('assets/images/melloss_pic.jpg');
@@ -62,19 +76,36 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        arganon,
         calculatorLogo,
+        cliq,
         dartLogo,
         figmaLogo,
         firefoxLogo,
         folderIcon,
         githubLogo,
         linkedInLogo,
+        melaFinance,
+        mellossLogo,
         mellossPic,
         terminal,
         ubuntuWallpaper,
         wikipediaLogo,
         youtubeLogo
       ];
+}
+
+class $AssetsSvgsGen {
+  const $AssetsSvgsGen();
+
+  /// File path: assets/svgs/p1.svg
+  String get p1 => 'assets/svgs/p1.svg';
+
+  /// File path: assets/svgs/p2.svg
+  String get p2 => 'assets/svgs/p2.svg';
+
+  /// List of all assets
+  List<String> get values => [p1, p2];
 }
 
 class $AssetsTranslationsGen {
@@ -94,6 +125,7 @@ class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsSvgsGen svgs = $AssetsSvgsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 

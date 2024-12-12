@@ -13,6 +13,7 @@ class UIBloc extends Bloc<UIEvent, UIState> {
             minimazedPath: ['/'],
             isTerminalOpen: false,
             isCalculatorOpen: false,
+            isPortifolioOpen: false,
           ),
         ) {
     on<IsExplorerOpened>(onIsExplorerOpended);
@@ -20,7 +21,16 @@ class UIBloc extends Bloc<UIEvent, UIState> {
     on<SetMinimazedPath>(onSetMinimazedPath);
     on<IsBrowserOpened>(_onIsBroswerOpened);
     on<IsCalculatorOpened>(_onIsCalculatorOpened);
+    on<IsPortifolioOpened>(_onIsPortifolioOpened);
   }
+  _onIsPortifolioOpened(IsPortifolioOpened event, Emitter emit) async {
+    emit(
+      state.copyWith(
+        isPortifolioOpen: event.isOpened,
+      ),
+    );
+  }
+
   _onIsCalculatorOpened(IsCalculatorOpened event, Emitter emit) async {
     emit(
       state.copyWith(

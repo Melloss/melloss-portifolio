@@ -83,8 +83,8 @@ class _TerminalLineState extends State<TerminalLine> {
                 },
                 cursorWidth: 10,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
                     ),
                 controller: widget.controller,
                 autofocus: widget.isActive,

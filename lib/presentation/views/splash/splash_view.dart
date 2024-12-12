@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +18,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
   final viewModel = SplashViewModel();
+  final scrollController = ScrollController();
 
   Future<void> showCommandWidget() async {
     for (int i = 0; i < viewModel.commands.length; i++) {
@@ -57,6 +60,13 @@ class _SplashViewState extends State<SplashView> {
   }
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    viewModel.commandWigets.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -64,17 +74,20 @@ class _SplashViewState extends State<SplashView> {
         padding: const EdgeInsets.all(20),
         child: NotificationListener(
           onNotification: (notification) {
-            viewModel.scrollController.animateTo(
-              viewModel.scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.linear,
-            );
-
+            try {
+              scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.linear,
+              );
+            } catch (e) {
+              log(e.toString());
+            }
             return true;
           },
           child: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
-            controller: viewModel.scrollController,
+            controller: scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: viewModel.commandWigets,

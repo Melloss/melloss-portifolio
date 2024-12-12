@@ -36,3 +36,9 @@ final class IsCalculatorOpened extends UIEvent {
 
   const IsCalculatorOpened({required this.isOpened});
 }
+
+final class IsPortifolioOpened extends UIEvent {
+  final bool isOpened;
+
+  const IsPortifolioOpened({required this.isOpened});
+}

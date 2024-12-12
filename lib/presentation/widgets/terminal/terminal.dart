@@ -36,6 +36,8 @@ class _TerminalState extends State<Terminal> {
   int currentTerminalLine = 0;
   bool isPoped = false;
 
+  FocusNode activeFocusNode = FocusNode();
+
   void onDragUpdate(DragUpdateDetails details) {
     if (top <= 30) {
       setState(() {
@@ -160,6 +162,28 @@ class _TerminalState extends State<Terminal> {
             controller: TextEditingController(),
           ),
         );
+      } else if (command == 'help') {
+        currentCommandIds.add(commandId);
+        terminalHistory[commandId] = [
+          'pwd',
+          'mkdir',
+          'rmdir',
+          'ls',
+          'open',
+          'cd',
+          'clear',
+          'exit',
+          'mv'
+        ];
+        setState(() {
+          currentCommandIds = currentCommandIds;
+        });
+        terminals.add(
+          TerminalModel(
+            path: state.currentPath,
+            controller: TextEditingController(),
+          ),
+        );
       } else if (command.startsWith('cd')) {
         List args = command.split(' ');
         if (args.first == 'cd' && args.length == 2) {
@@ -190,6 +214,7 @@ class _TerminalState extends State<Terminal> {
           );
         }
       } else {
+        terminalHistory[commandId] = ['zsh: command not found: $command'];
         terminals.add(
           TerminalModel(
             path: state.currentPath,
@@ -248,33 +273,38 @@ class _TerminalState extends State<Terminal> {
   }
 
   _buildMainBoard() {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: ColorName.backgroundColor.withOpacity(0.8),
-        borderRadius: width == 100.sh ? null : BorderRadius.circular(10),
-      ),
-      child: BlocBuilder<FileSystemBloc, FileSystemState>(
-        builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Draggable(
-                ignoringFeedbackPointer: true,
-                feedback: const SizedBox.shrink(),
-                onDragUpdate: onDragUpdate,
-                child: _buildHeader(),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: _buildTerminalLines(),
+    return GestureDetector(
+      onTap: () {
+        //
+      },
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: ColorName.backgroundColor.withOpacity(0.8),
+          borderRadius: width == 100.sh ? null : BorderRadius.circular(10),
+        ),
+        child: BlocBuilder<FileSystemBloc, FileSystemState>(
+          builder: (context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Draggable(
+                  ignoringFeedbackPointer: true,
+                  feedback: const SizedBox.shrink(),
+                  onDragUpdate: onDragUpdate,
+                  child: _buildHeader(),
                 ),
-              )
-            ],
-          );
-        },
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: _buildTerminalLines(),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -369,7 +399,7 @@ class _TerminalState extends State<Terminal> {
     );
   }
 
-  Widget _buildCommandRestponse(int id, List commands) {
+  Widget _buildCommandResponse(int id, List commands) {
     log('response id $id');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -436,7 +466,7 @@ class _TerminalState extends State<Terminal> {
                         });
                       }),
                   if (terminalHistory.isNotEmpty)
-                    _buildCommandRestponse(
+                    _buildCommandResponse(
                       i,
                       terminalHistory[i],
                     ),

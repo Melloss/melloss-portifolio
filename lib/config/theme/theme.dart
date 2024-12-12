@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:melloss_portifolio/gen/colors.gen.dart';
-import 'package:melloss_portifolio/gen/fonts.gen.dart';
 
 final themeData = ThemeData(
   scaffoldBackgroundColor: ColorName.backgroundColor,
-  fontFamily: FontFamily.montserrat,
+  fontFamily: GoogleFonts.firaCode().fontFamily,
   colorScheme: ColorScheme.fromSeed(
     seedColor: Colors.white,
     primary: Colors.white,

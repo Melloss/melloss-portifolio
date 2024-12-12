@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:melloss_portifolio/bloc/brightness/brightness_bloc.dart';
+import 'package:melloss_portifolio/config/routes/go_routing.dart';
 import 'package:melloss_portifolio/gen/colors.gen.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -273,25 +275,29 @@ class _UtilityButtonState extends State<UtilityButton> {
               _buildExpanstionTileChild(
                 title: 'Suspend',
                 onPress: () {
-                  //
+                  context.pop();
+                  context.goNamed(RouteName.inactive, extra: RouteName.landing);
                 },
               ),
               _buildExpanstionTileChild(
                 title: 'Restart...',
                 onPress: () {
-                  //
+                  context.pop();
+                  context.goNamed(RouteName.boot);
                 },
               ),
               _buildExpanstionTileChild(
                 title: 'Power Off',
                 onPress: () {
-                  //
+                  context.pop();
+                  context.goNamed(RouteName.inactive, extra: RouteName.boot);
                 },
               ),
               _buildExpanstionTileChild(
                 title: 'Log Out',
                 onPress: () {
-                  //
+                  context.pop();
+                  context.goNamed(RouteName.landing);
                 },
               ),
             ]),

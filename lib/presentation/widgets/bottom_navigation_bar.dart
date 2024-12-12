@@ -5,6 +5,7 @@ import 'package:melloss_portifolio/gen/assets.gen.dart';
 import 'package:melloss_portifolio/presentation/widgets/browser/firefox_browser.dart';
 import 'package:melloss_portifolio/presentation/widgets/calculator/calculator.dart';
 import 'package:melloss_portifolio/presentation/widgets/file_explorer.dart';
+import 'package:melloss_portifolio/presentation/widgets/portifolio/portifolio.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../bloc/file_system/file_system_bloc.dart';
@@ -13,7 +14,8 @@ import '../../gen/colors.gen.dart';
 import 'terminal/terminal.dart';
 
 class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({super.key});
+  final Function() onShowAppClick;
+  const BottomNavigation({super.key, required this.onShowAppClick});
 
   @override
   Widget build(BuildContext context) {
@@ -200,11 +202,45 @@ class BottomNavigation extends StatelessWidget {
                   ),
                 ],
               ),
+              Stack(
+                children: [
+                  IconButton(
+                      style: _buttonStyle(),
+                      onPressed: () {
+                        context
+                            .read<UIBloc>()
+                            .add(const IsPortifolioOpened(isOpened: true));
+                        showDialog(
+                            barrierDismissible: false,
+                            barrierColor: Colors.transparent,
+                            context: context,
+                            builder: (_) => const Portifolio());
+                      },
+                      icon: Assets.images.mellossLogo
+                          .image(width: 70, height: 70)),
+                  Visibility(
+                    visible: state.isPortifolioOpen,
+                    child: Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 7,
+                          height: 7,
+                          decoration: BoxDecoration(
+                              color: ColorName.primaryColor,
+                              borderRadius: BorderRadius.circular(50)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               IconButton(
                 style: _buttonStyle(),
-                onPressed: () {
-                  //
-                },
+                onPressed: onShowAppClick,
                 icon: const Icon(
                   Icons.apps,
                   size: 55,

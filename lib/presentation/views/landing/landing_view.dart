@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:ui';
+import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,10 @@ class _LandingViewState extends State<LandingView> {
     context.goNamed(RouteName.desktop);
   }
 
+  bool isFullScreen() {
+    return html.document.fullscreenElement != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +77,7 @@ class _LandingViewState extends State<LandingView> {
       child: Stack(
         children: [
           SizedBox(
-            width: 25.sh,
+            width: 450,
             height: 35.sw,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,12 +153,11 @@ class _LandingViewState extends State<LandingView> {
             ),
           ),
           Positioned(
-            right: 0,
-            top: 0,
+            right: -5,
             bottom: 0,
-            child: Container(
+            top: isFullScreen() ? 3.5.sw : 8.sw,
+            child: SizedBox(
               width: 50,
-              padding: const EdgeInsets.only(top: 70),
               child: Visibility(
                   visible: viewModel.isEnterPressed,
                   child: const LoadingAnimation()),

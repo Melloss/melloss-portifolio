@@ -5,4 +5,6 @@
     <color name="white" type="material">#FFFFFFFF</color>
     <color name="forgroundColor" type="material">#FF1D1D1D</color>
     <color name="primaryColor" type="material">#FFE95420</color>
+    <color name="greyColor" type="material">#FFABB2BF</color>
+
 </resources>

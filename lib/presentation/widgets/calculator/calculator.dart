@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'package:melloss_portifolio/bloc/bloc/calculator_bloc.dart';
+import 'package:melloss_portifolio/bloc/calculator/calculator_bloc.dart';
 import 'package:melloss_portifolio/data/models/calculator_model.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 

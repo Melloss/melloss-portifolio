@@ -236,6 +236,4 @@ class SplashViewModel {
 [#[0;32m  OK  #[0m] Started #[0;1;39mWPA supplicant#[0m.''',
   ];
   List<Widget> commandWigets = [];
-
-  final scrollController = ScrollController();
 }
