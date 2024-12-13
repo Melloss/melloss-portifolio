@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:html';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,10 @@ class _SplashViewState extends State<SplashView> {
       context.goNamed(RouteName.landing);
     });
     super.initState();
+    final loader = document.getElementsByClassName('loading');
+    if (loader.isNotEmpty) {
+      loader.first.remove();
+    }
   }
 
   @override
@@ -74,15 +80,21 @@ class _SplashViewState extends State<SplashView> {
         padding: const EdgeInsets.all(20),
         child: NotificationListener(
           onNotification: (notification) {
-            try {
-              scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.linear,
-              );
-            } catch (e) {
-              log(e.toString());
+            if (notification is ScrollEndNotification) {
+              try {
+                if (scrollController.offset !=
+                    scrollController.position.maxScrollExtent) {
+                  scrollController.animateTo(
+                    scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.linear,
+                  );
+                }
+              } catch (e) {
+                log(e.toString());
+              }
             }
+
             return true;
           },
           child: SingleChildScrollView(
