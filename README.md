@@ -1,5 +1,5 @@
-# Melloss Portifolio
+# Melloss Portfolio
 
-check the demo video
+[![Portfolio Demo](preview.gif)](https://melloss.dev/melloss_portifolio.webm)
 
-https://melloss.dev/melloss_portifolio.webm
+Click the image to watch the full demo.
