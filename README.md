@@ -1,5 +1,9 @@
 # Melloss Portfolio
 
-[![Portfolio Demo](preview.gif)](https://melloss.dev/melloss_portifolio.webm)
+🚀 Live Demo: https://melloss.dev
 
-Click the image to watch the full demo.
+## Demo
+
+[![Portfolio Demo](thumbnail.png)](https://melloss.dev/melloss_portifolio.webm)
+
+Click the image above to watch the full demo video.
